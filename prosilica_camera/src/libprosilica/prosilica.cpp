@@ -377,18 +377,25 @@ void Camera::setWhiteBalance(unsigned int blue, unsigned int red, AutoSetting is
                "Couldn't set white balance mode" );
   }
 
-  if (isauto == Manual)
+  // if (isauto == Manual)
+  // {
+  //     if(hasAttribute("WhitebalValueBlue"))
+  //     {
+  //       CHECK_ERR( PvAttrUint32Set(handle_, "WhitebalValueBlue", blue),
+  //                  "Couldn't set white balance blue value" );
+  //     }
+  //     if(hasAttribute("WhitebalValueRed"))
+  //     {
+  //       CHECK_ERR( PvAttrUint32Set(handle_, "WhitebalValueRed", red),
+  //                  "Couldn't set white balance red value" );
+  //     }
+  // }
+  if (isauto == Manual && PvAttrIsAvailable(handle_, "WhitebalValueBlue"))
   {
-      if(hasAttribute("WhitebalValueBlue"))
-      {
-        CHECK_ERR( PvAttrUint32Set(handle_, "WhitebalValueBlue", blue),
-                   "Couldn't set white balance blue value" );
-      }
-      if(hasAttribute("WhitebalValueRed"))
-      {
-        CHECK_ERR( PvAttrUint32Set(handle_, "WhitebalValueRed", red),
-                   "Couldn't set white balance red value" );
-      }
+    CHECK_ERR( PvAttrUint32Set(handle_, "WhitebalValueBlue", blue),
+               "Couldn't set white balance blue value" );
+    CHECK_ERR( PvAttrUint32Set(handle_, "WhitebalValueRed", red),
+               "Couldn't set white balance red value" );
   }
 }
 

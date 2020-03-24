@@ -174,7 +174,8 @@ private:
 
     void onInitImpl()
     {
-        ros::NodeHandle& nh = getNodeHandle();
+        //ros::NodeHandle& nh = getNodeHandle();
+        ros::NodeHandle nh("camera");
         ros::NodeHandle& pn = getPrivateNodeHandle();
 
         //! initialize prosilica if necessary
@@ -342,7 +343,7 @@ private:
             PvAttrRangeUint32(camera_->handle(), "BinningY", &dummy, &max_binning_y);
             PvAttrRangeUint32(camera_->handle(), "Width",    &dummy, &sensor_width_);
             PvAttrRangeUint32(camera_->handle(), "Height",   &dummy, &sensor_height_);
-
+            reconfigureCallback(last_config_, dynamic_reconfigure::SensorLevels::RECONFIGURE_RUNNING);
 
             // Parse calibration file
             std::string camera_name;
@@ -807,10 +808,10 @@ private:
         else
         {
             camera_->setWhiteBalance(config.whitebalance_blue, config.whitebalance_red, prosilica::Manual);
-            if (camera_->hasAttribute("WhitebalValueRed"))
-                camera_->setAttribute("WhitebalValueRed", (tPvUint32)config.whitebalance_red);
-            if (camera_->hasAttribute("WhitebalValueBlue"))
-                camera_->setAttribute("WhitebalValueBlue", (tPvUint32)config.whitebalance_blue);
+            // if (camera_->hasAttribute("WhitebalValueRed"))
+            //     camera_->setAttribute("WhitebalValueRed", (tPvUint32)config.whitebalance_red);
+            // if (camera_->hasAttribute("WhitebalValueBlue"))
+            //     camera_->setAttribute("WhitebalValueBlue", (tPvUint32)config.whitebalance_blue);
         }
 
         // Binning configuration
